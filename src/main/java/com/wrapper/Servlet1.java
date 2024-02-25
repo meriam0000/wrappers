@@ -2,6 +2,7 @@ package com.wrapper;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -28,9 +29,12 @@ public class Servlet1 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		String name=request.getParameter("username");
-	  PrintWriter	pw=response.getWriter();
-	  pw.println(name);
-	}
+	    PrintWriter	pw=response.getWriter();
+	    pw.println(name);
+	    Locale loc = response.getLocale ();
+        pw.println ("Locale set for this application is " + loc.toString ());
+    }
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

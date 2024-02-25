@@ -1,6 +1,7 @@
 package com.wrapper;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -38,25 +39,29 @@ public class Filter1 extends HttpFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		    if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-		        HttpServletRequest httpRequest = (HttpServletRequest) request;
-		        HttpServletResponse httpResponse = (HttpServletResponse) response;
+		   
+		
+	            HttpServletRequest httpRequest = (HttpServletRequest) request;
+	            HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		        // Set content type if needed
-		        response.setContentType("text/html");
+	            // Set content type if needed
+	            response.setContentType("text/html");
+	            PrintWriter out = response.getWriter();
+	            out.println("<b> <i>Filtering request and passing it to Wrapper class</i> </b> <br/>");
 
-		        // Wrap the request
-		        RequestWrapper1 requestWrapper = new RequestWrapper1(httpRequest);
+	            // Wrap the request if it's an HttpServletRequest
+	            RequestWrapper1 requestWrapper1 = new RequestWrapper1(httpRequest);
+	            out.println("<b> <i>Filter is filtering the response and passing it to Wrapper class</i> </b> <br/>");
+	            WrapperResponse responseWrapper = new WrapperResponse(httpResponse);
+	            
 
-		        // Pass the wrapped request and original response to the next filter or servlet
-		        chain.doFilter(requestWrapper, response);
-		    } else {
-		        // Non-HTTP request or response, pass it down the filter chain without processing
-		        chain.doFilter(request, response);
-		    }
-		}
+	            // Pass the wrapped request and original response to the next filter or servlet
+	            chain.doFilter(requestWrapper1,responseWrapper);
+	        }
+		
 
-          
+	          
+		
          // pass the request along the filter chain
 	
 
